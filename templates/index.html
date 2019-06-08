@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
+    <script src="{{ url_for('static',filename='scripts/script.js') }}"></script>
+    <title>Sibyl</title>
+</head>
+
+<body>
+
+<div class="card">
+    <div id="parent" class="card-container">
+        <center><h4 style="margin: auto">Welcome To Sibyl</h4></center>
+        <div class="flex-container">
+            <div style="flex-grow: 1">
+                <h4>Input Student ID: </h4>
+            </div>
+            <div style="flex-grow: 10">
+                <input id="studentId" type="text" class="form-control"/>
+            </div>
+            <div style="flex-grow: 1; margin-left: 32px">
+                <button id="submitId" class="btn btn-secondary">Submit</button>
+            </div>
+        </div>
+
+        <div style="flex-grow: 1; align-items: center; padding-top: 16px; padding-bottom: 16px">
+            <div id="loader" class="loader" style="display: none; margin: auto"></div>
+        </div>
+
+        <div id="predictedCorusesParent" style="display: none">
+            <div id="studentInfo" class="flex-container" style="display: none">
+                <h4 id="gpa">GPA</h4>
+                <h4 id="credit">Credit</h4>
+            </div>
+            <hr>
+
+            <div class="flex-container">
+                <div style="flex-grow: 1; width: 60%">
+                    <h4>Select Course(s) to Study</h4>
+                    <br>
+                    <h5>General Course(s):</h5>
+                    <div id="generalCourses">N/A</div>
+                    <h5>Core Course(s):</h5>
+                    <div id="coreCourses">N/A</div>
+                    <h5>Elective Course(s):</h5>
+                    <div id="electiveCourses">N/A</div>
+                </div>
+                <div style="flex-grow: 1; width: 30%">
+                    <h4>Selected Course(s): </h4>
+                    <div>
+                        <h5 id="totalCredits"></h5>
+                        <h5 id="predictedGPA"></h5>
+                        <h5 id="actualGPA"></h5>
+                    </div>
+                    <div id="selectedCourse"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

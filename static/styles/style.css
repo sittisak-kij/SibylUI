@@ -1,0 +1,68 @@
+body {
+    background-color: gray;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.card {
+    background-color: white;
+    margin: 32px;
+    box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 16px;
+}
+
+.card-container {
+    padding: 16px
+}
+
+.card-hover {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+.card-hover:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-hover-container {
+    padding: 2px 16px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    padding: 16px;
+    flex-wrap: wrap;
+}
+
+.flex-container-col {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 16px;
+    flex-wrap: wrap;
+}
+
+.loader {
+    border: 8px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 8px solid #3cba54;
+    border-right: 8px solid #f4c20d;
+    border-bottom: 8px solid #4885ed;
+    border-left: 8px solid #db3236;
+    width: 60px;
+    height: 60px;
+    -webkit-animation: spin 2s linear infinite;
+    /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
