@@ -113,7 +113,8 @@ def predict(studentcode, curriculumId):
                 'RequiredGrade': general_ls[course],
                 'PredictedGrade': "%.2f" % predicted_grade,
                 'ActualGrade': actual_grade,
-                'Credit': course_df.loc[course_df['CourseCode'] == course].Credit.values[0]
+                'Credit': course_df.loc[course_df['CourseCode'] == course].Credit.values[0],
+                'Type': 'General'
             })
             # print("Course Code: ", course, "Course Name: ", course_name, " Require grade: ", general_ls[course])
             stat = findMeanCourse(course)
@@ -137,7 +138,8 @@ def predict(studentcode, curriculumId):
                 'RequiredGrade': core_ls[course],
                 'PredictedGrade': "%.2f" % predicted_grade,
                 'ActualGrade': actual_grade,
-                'Credit': course_df.loc[course_df['CourseCode'] == course].Credit.values[0]
+                'Credit': course_df.loc[course_df['CourseCode'] == course].Credit.values[0],
+                'Type': 'Core'
             })
             # print("Course Code: ", course, "Course Name: ", course_name, " Require grade: ", core_ls[course])
             stat = findMeanCourse(course)
@@ -161,7 +163,8 @@ def predict(studentcode, curriculumId):
                 'RequiredGrade': elective_ls[course],
                 'PredictedGrade': "%.2f" % predicted_grade,
                 'ActualGrade': actual_grade,
-                'Credit': course_df.loc[course_df['CourseCode'] == course].Credit.values[0]
+                'Credit': course_df.loc[course_df['CourseCode'] == course].Credit.values[0],
+                'Type': 'Elective'
             })
             # print("Course Code: ", course, "Course Name: ", course_name, " Require grade: ", elective_ls[course])
             stat = findMeanCourse(course)
@@ -221,11 +224,9 @@ def getStudent():
 
     return jsonify('none')
 
-
 @app.route('/')
 def hello_world():
     return render_template('index.html')
-
 
 if __name__ == '__main__':
     app.run()

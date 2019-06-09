@@ -6,10 +6,12 @@ var electiveCourses = [];
 
 var selectedCourses = [];
 
+var response = null;
+
 function renderRecommendedCourses(resp) {
     $('#studentInfo').css('display', 'block');
-    $('#gpa').text('GPA: ' + resp['StudentData']['GPA']);
-    $('#credit').text('Credits: ' + resp['StudentData']['Credits'] + ' Credits');
+    $('#gpa').text(resp['StudentData']['GPA']);
+    $('#credit').text(`${resp['StudentData']['Credits']} Credits`);
     let predictedGrades = resp['PredictedData'];
 
     if (predictedGrades['General'].length > 0) {
@@ -68,10 +70,10 @@ function renderRecommendedCourses(resp) {
 }
 
 function refreshRecommendedCourse() {
-    console.log('refresh')
+    // console.log('refresh')
     if (generalCourses.length > 0) {
         $('#generalCourses').empty();
-        console.log(generalCourses)
+        // console.log(generalCourses)
         $.each(generalCourses, function (index, value) {
             // console.log(value);
             let r = $('<input/>').attr({
@@ -137,7 +139,7 @@ function refreshSelectedCourses() {
         $.each(selectedCourses, function (index, value) {
             totalCredits += parseInt(value['Credit']);
             sumGrades += (getGPAToEstimate(value['PredictedGrade']) * parseFloat(value['Credit']));
-            console.log(value['CourseCode']);
+            // console.log(value['CourseCode']);
             let r = $('<input/>').attr({
                 type: "button",
                 id: value['CourseCode'],
@@ -197,7 +199,7 @@ function openDialog(courseCode, courseName, requiredGrade, predictedGrade, actua
                                 'Class': 'btn btn-primary'
                             };
                             selectedCourses.push(course);
-                            console.log(generalIndex);
+                            // console.log(generalIndex);
                             generalCourses.splice(generalIndex, 1)
                         }
                     }
@@ -219,7 +221,7 @@ function openDialog(courseCode, courseName, requiredGrade, predictedGrade, actua
                                 'Class': 'btn btn-warning'
                             };
                             selectedCourses.push(course);
-                            console.log('found');
+                            // console.log('found');
                             coreCourses.splice(coreIndex, 1)
                         }
                     }
@@ -241,7 +243,7 @@ function openDialog(courseCode, courseName, requiredGrade, predictedGrade, actua
                                 'Class': 'btn btn-success'
                             };
                             selectedCourses.push(course);
-                            console.log('found');
+                            // console.log('found');
                             electiveCourses.splice(electiveIndex, 1)
                         }
                     }
@@ -267,34 +269,11 @@ function sortList(list, prop, asc) {
 
 function actualGradeToString(grade) {
     if (grade === -1 || grade === '-1') {
-        return 'Not Studied'
+        return 'N/A'
+    } else if (grade === 4 || grade === '4') {
+        return '4.00'
     }
     return grade
-}
-
-function getGPAToEstimate(gpa) {
-    gpa = parseFloat(gpa);
-    if (gpa <= 0) {
-        return 0
-    } else if (gpa >= 1 && gpa <= 1.49) {
-        return 1
-    } else if (gpa >= 1.50 && gpa <= 1.99) {
-        return 1.75
-    } else if (gpa >= 2.00 && gpa <= 2.14) {
-        return 2.00
-    } else if (gpa >= 2.15 && gpa <= 2.49) {
-        return 2.15
-    } else if (gpa >= 2.50 && gpa <= 2.75) {
-        return 2.75
-    } else if (gpa >= 2.76 && gpa <= 3.14) {
-        return 3.00
-    } else if (gpa >= 3.15 && gpa <= 3.49) {
-        return 3.15
-    } else if (gpa >= 3.50 && gpa <= 3.75) {
-        return 3.75
-    } else {
-        return 4.00
-    }
 }
 
 function calculateActualGPA(courses) {
@@ -303,9 +282,9 @@ function calculateActualGPA(courses) {
         let totalCredits = 0;
         let sumGrades = 0;
         $.each(selectedCourses, function (index, value) {
-            console.log(parseFloat(value['ActualGrade']))
+            // console.log(parseFloat(value['ActualGrade']))
             if (parseFloat(value['ActualGrade']) >= 0) {
-                console.log('yes')
+                // console.log('yes')
                 totalCredits += parseInt(value['Credit']);
                 sumGrades += (getGPAToEstimate(value['ActualGrade']) * parseFloat(value['Credit']));
             } else {
@@ -328,6 +307,8 @@ $(document).on({
     ajaxStop: function () {
         $('#loader').css('display', 'none');
         $('#predictedCorusesParent').css('display', 'block');
+        renderTable();
+        setupSelectedCourseTable();
     }
 });
 
@@ -350,10 +331,8 @@ $(document).ready(function () {
             contentType: 'json',
             dataType: 'json',
             success: function (resp) {
-                // console.log(resp);
-                // let data = $.parseJSON(resp);
-                // console.log(data)
-                renderRecommendedCourses(resp)
+                response = resp;
+                renderRecommendedCourses(resp);
             },
             error: function (error) {
                 alert(error);

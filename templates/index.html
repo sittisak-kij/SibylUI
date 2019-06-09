@@ -7,11 +7,17 @@
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Titillium+Web:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/style.css') }}">
     <script src="{{ url_for('static',filename='scripts/script.js') }}"></script>
+    <script src="{{ url_for('static',filename='scripts/table.js') }}"></script>
+    <script src="{{ url_for('static',filename='scripts/roundings.js') }}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <title>Sibyl</title>
 </head>
 
@@ -19,7 +25,8 @@
 
 <div class="card">
     <div id="parent" class="card-container">
-        <center><h4 style="margin: auto">Welcome To Sibyl</h4></center>
+
+        <center><h4 style="margin: auto; font-weight: bold">Welcome To Sibyl</h4></center>
         <div class="flex-container">
             <div style="flex-grow: 1">
                 <h4>Input Student ID: </h4>
@@ -32,30 +39,83 @@
             </div>
         </div>
 
-        <div style="flex-grow: 1; align-items: center; padding-top: 16px; padding-bottom: 16px">
+        <div style="flex-grow: 1; align-items: center">
             <div id="loader" class="loader" style="display: none; margin: auto"></div>
         </div>
 
         <div id="predictedCorusesParent" style="display: none">
             <div id="studentInfo" class="flex-container" style="display: none">
-                <h4 id="gpa">GPA</h4>
-                <h4 id="credit">Credit</h4>
+                <h3 style="font-weight: bold">Student Information</h3>
+                <h4 style="font-weight: bold">Current GPA: <span id="gpa" style="font-weight: normal"></span></h4>
+                <h4 style="font-weight: bold">Current Credits: <span id="credit" style="font-weight: normal"></span>
+                </h4>
             </div>
             <hr>
 
             <div class="flex-container">
-                <div style="flex-grow: 1; width: 60%">
-                    <h4>Select Course(s) to Study</h4>
+                <div style="flex-grow: 1; width: 50%; padding-right: 16px">
+                    <h4 style="font-weight: bold">Select Course(s) to Study</h4>
                     <br>
-                    <h5>General Course(s):</h5>
-                    <div id="generalCourses">N/A</div>
-                    <h5>Core Course(s):</h5>
-                    <div id="coreCourses">N/A</div>
-                    <h5>Elective Course(s):</h5>
-                    <div id="electiveCourses">N/A</div>
+                    {#                    <h5>General Course(s):</h5>#}
+                    <div id="generalCourses" style="display: none">N/A</div>
+                    {#                    <h5>Core Course(s):</h5>#}
+                    <div id="coreCourses" style="display: none">N/A</div>
+                    {#                    <h5>Elective Course(s):</h5>#}
+                    <div id="electiveCourses" style="display: none">N/A</div>
+
+                    <table id="recommendedCoursesTable" class="display">
+                        <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Course Name</th>
+                            <th>Credit</th>
+                            <th>Type</th>
+                            <th>Predicted Grade</th>
+                            <th>Actual Grade</th>
+                        </tr>
+                        </thead>
+                        <tbody id="recommendedCoursesTableBody">
+                        </tbody>
+                    </table>
                 </div>
-                <div style="flex-grow: 1; width: 30%">
-                    <h4>Selected Course(s): </h4>
+                <div style="flex-grow: 1; width: 50%; padding-left: 16px">
+                    <h4 style="font-weight: bold">Selected Course(s): </h4>
+                    <br>
+                    <h5 style="font-weight: bold">Total Credits: <span id="tCredits" style="font-weight: normal">0 Credits</span></h5>
+                    <h5 style="font-weight: bold">Actual GPA: <span id="nActualGPA" style="font-weight: normal">Not Available</span></h5>
+                    <h5 style="font-weight: bold">Predicted GPA (Rounded by):
+                        <table style="width: 100%; text-align: center; margin-top: 16px; table-layout: fixed">
+                            <thead>
+                            <tr>
+                                <th>Ceil</th>
+                                <th>Floor</th>
+                                <th>Mid-range</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td><span id="ceil" style="font-weight: normal">Not Available</span></td>
+                                <td><span id="floor" style="font-weight: normal">Not Available</span></td>
+                                <td><span id="mid-range" style="font-weight: normal">Not Available</span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </h5>
+                    <br>
+                    <table id="selectedCoursesTable" class="display">
+                        <thead>
+                        <tr>
+                            <th>Course Code</th>
+                            <th>Course Name</th>
+                            <th>Credit</th>
+                            <th>Type</th>
+                            <th>Predicted Grade</th>
+                            <th>Actual Grade</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                     <div>
                         <h5 id="totalCredits"></h5>
                         <h5 id="predictedGPA"></h5>

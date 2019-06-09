@@ -11,7 +11,7 @@ class CourseEnrollments:
                             usecols=['CourseCode', 'FacultyCode', 'DepartmentCode', 'NameEN', 'IsValid', 'Credit'],
                             dtype={'CourseCode': str, 'FacultyCode': str, 'DepartmentCode': str, 'NameEN': str,
                                    'IsValid': bool, 'Credit': str}, encoding='utf-8')
-    student_df = pd.read_csv("data/student.csv", sep=',', header=None, usecols=[0, 21, 22],
+    student_df = pd.read_csv("data/student.csv", sep=',', header=None, usecols=[0, 19, 20],
                              names=['StudentCode', 'CurrentGPA', 'CurrentCredit'],
                              dtype={'StudentCode': str, 'CurrentGPA': np.float64, 'CurrentCredit': np.float64},
                              encoding='utf-8')
