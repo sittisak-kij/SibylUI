@@ -101,9 +101,15 @@ function updateSelectedCourseTable() {
 
     $('#selectedCoursesTable tbody').on('click', ' tr', function () {
         let data = table.row(this).data();
+        let index = 0;
+        $.each(newSelectedCourses, function (i, value) {
+            if (value[0] === data[0]) {
+                index = i;
+            }
+        });
         table.row(this).remove().draw();
-        let index = newSelectedCourses.indexOf(data[0]);
         newSelectedCourses.splice(index, 1);
+        console.log(newSelectedCourses);
         updateSelectedCourseTable()
     });
 }
